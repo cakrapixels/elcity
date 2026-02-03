@@ -1,0 +1,129 @@
+#+TITLE: ElCity (Emacs Lisp City)
+
+* Overview
+
+ElCity is a small, turn-based city builder that runs entirely inside Emacs.
+The UI is ASCII-based and optimized for terminal Emacs sessions.  The core
+simulation is deterministic and pure, while the UI handles rendering and input.
+
+This is an excercise in implementing the "functional core / imperative shell" architecture
+in a moderately sized project that with a developed UI. Every tile type is defined through
+a DSL, with a strong separation between state and effects. Most functions in the core are
+either pure or pure-ish.
+
+Benefits to this approach:
+- easy to debug
+- scalable in terms of code: reduced cognitive load on both people and LLMs
+- easy UX/UI as state is always localized
+- easy to extend (with some discipline)
+- easy to autotest
+
+* Requirements
+
+- Emacs 30.1+
+
+- Optional: Eask for dependency management
+
+* Installation
+
+Clone the repository and add it to your Emacs load path.  Example with
+=use-package=:
+
+#+begin_src elisp
+(use-package elcity
+  :load-path "/path/to/elcity"
+  :commands (elcity-start))
+#+end_src
+
+If you are not using =use-package=, add the directory to =load-path=
+and require the entry point:
+
+#+begin_src elisp
+(add-to-list 'load-path "/path/to/elcity")
+(require 'elcity)
+(elcity-start)
+#+end_src
+
+* Quick Start
+
+From the project root:
+
+#+begin_src sh
+make run
+#+end_src
+
+Or from Emacs: =M-x elcity-start=
+
+* Game Logic
+
+- The game is turn-based.  Press =n= to advance one turn.
+- Funds increase each turn by: (Population / 2) + (Commercial level + Industrial level).
+- City Hall is the source of road connectivity and is unique and non-demolishable.
+- Roads are only connected if they trace through other roads to City Hall.
+- Power plants provide a Manhattan-radius of 6 tiles.
+- Zones grow by 1 level per turn if powered and road-adjacent.
+- Zones decay by 1 level per turn if they lose power or road adjacency.
+- Maximum zone level is 3.
+- Residential (R) supplies Workers in a radius and dislikes Pollution.
+- Industrial (I) supplies Goods and Pollution and requires Workers.
+- Commercial (C) requires Workers and Goods.
+
+* Controls
+
+- =R= select Residential and place once
+- =C= select Commercial and place once
+- =I= select Industrial and place once
+- =r= select Road and place once
+- =p= select Power plant and place once
+- =h= select City Hall and place once
+- =SPC= or =RET= place selected tool at cursor
+- =d= demolish at cursor
+- =u= undo last action
+- =n= advance one turn
+- Arrow keys move the cursor
+- =o= cycle overlays (goods, polution, connectivity, etc)
+
+* Visual Demo
+
+This is a simplified snapshot to show the general layout.
+
+#+begin_src text
+Funds: 1000 | Pop: 0 | Income: 0 | Turn: 0 | Overlay: none | Tool: none | Unpowered: 0 | Disconnected: 0 | Polluted: 0
+Cursor: (0,0) | Tile: HH City Hall | Level: 0 | Build: N | Demo: N | Unique: Y | Cost: 150 | Pop: 0 | Inc: 0
+Legend: R res  C com  I ind  == road  Overlay: Pwr Conn Poll Work Goods
+Keys: R/C/I zone (select tool) | r road | p power | h city hall | d demolish | n next turn
+Place: SPC/RET place selected tool | u undo
+Overlay: o cycle (none/power/connectivity/pollution/workers/goods)
+Move: arrows
+   00 01 02 03 04 05 06 07 08 09
+   +--------------------+
+00 |HH==R0..PP..........|
+01 |....................|
+02 |~~~~~~..............|
+   +--------------------+
+#+end_src
+
+* Basic Configuration
+
+- Start with a custom map by calling =elcity-start= with a list of row strings.
+- Example call: ~(elcity-start '("H=R0" "...."))~
+- Map tokens are defined in tile definitions.
+- Canonical tokens include =..=, =~~=, ~==~, =PP=, =HH=, =R0=-=R3=, =C0=-=C3=, =I0=-=I3=.
+- Short aliases are also accepted: =.=, =~=, ~=~, =P=, =H=, =R=, =C=, =I=.
+- Default map rows live in =elcity-maps.el= (=elcity-map-default-rows=).
+- Default map size is set by =elcity-core-map-width= and =elcity-core-map-height=.
+
+* Development
+
+- =make test= runs ERT tests.
+- =make lint= runs package lint, checkdoc, and byte compilation.
+- =make compile= byte-compiles non-test files.
+
+* Project Layout
+
+- =elcity.el= entry point that wires core and UI
+- =elcity-core.el= pure simulation and state transitions
+- =elcity-tiles.el= tile definitions and effect metadata
+- =elcity-ui.el= UI shell and input handling
+- =elcity-maps.el= map presets
+- =test/= ERT tests

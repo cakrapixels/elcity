@@ -1,0 +1,13 @@
+*~
+\#*\#
+.\#*
+*.elc
+*.eln
+.eask/
+auto-save-list/
+tramp
+.#*
+.emacs.desktop
+.emacs.desktop.lock
+*.[0-9]~
+\#*#*
